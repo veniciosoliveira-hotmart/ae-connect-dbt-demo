@@ -1,0 +1,13 @@
+ae_connect_demo:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_PG_HOST', 'localhost') }}"
+      user: "{{ env_var('DBT_PG_USER', 'dbt_user') }}"
+      password: "{{ env_var('DBT_PG_PASSWORD', 'dbt_pass') }}"
+      database: "{{ env_var('DBT_PG_DATABASE', 'dbt_demo') }}"
+      schema: "{{ env_var('DBT_PG_SCHEMA', 'public') }}"
+      port: 5433
+      threads: 4
+      client_encoding: utf8
