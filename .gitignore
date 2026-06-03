@@ -1,0 +1,13 @@
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Python
+venv/
+*.pyc
+__pycache__/
+
+# Credenciais
+profiles.yml
+.env
