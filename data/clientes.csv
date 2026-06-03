@@ -1,0 +1,19 @@
+id,nome,email,cidade,data_cadastro
+1,Ana Souza,ana.souza@email.com,São Paulo,2023-01-15
+2,Bruno Lima,bruno.lima@email.com,Rio de Janeiro,2023-02-03
+3,Carla Mendes,carla.mendes@email.com,Belo Horizonte,2023-02-18
+4,Diego Alves,diego.alves@email.com,Curitiba,2023-03-07
+5,Elaine Rocha,elaine.rocha@email.com,Porto Alegre,2023-03-22
+6,Felipe Torres,felipe.torres@email.com,Brasília,2023-04-10
+7,Gabriela Nunes,gabriela.nunes@email.com,Salvador,2023-04-25
+8,Henrique Costa,henrique.costa@email.com,Fortaleza,2023-05-14
+9,Isabela Martins,isabela.martins@email.com,Recife,2023-06-01
+10,João Ferreira,joao.ferreira@email.com,Manaus,2023-06-19
+11,Karen Oliveira,karen.oliveira@email.com,Goiânia,2023-07-08
+12,Lucas Pereira,lucas.pereira@email.com,São Paulo,2023-07-30
+13,Mariana Santos,mariana.santos@email.com,Rio de Janeiro,2023-08-12
+14,Nicolas Barros,nicolas.barros@email.com,Curitiba,2023-09-05
+15,Patrícia Gomes,patricia.gomes@email.com,Belo Horizonte,2023-09-28
+16,Rafael Cardoso,rafael.cardoso@email.com,Porto Alegre,2023-10-15
+17,Simone Ribeiro,simone.ribeiro@email.com,Brasília,2023-11-02
+18,Thiago Moreira,thiago.moreira@email.com,São Paulo,2023-11-20
