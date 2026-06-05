@@ -10,6 +10,7 @@ Projeto dbt de demonstração usando PostgreSQL como data warehouse, com dados f
 |---|---|---|
 | Python | 3.9 – 3.13 | **dbt-core 1.10.x não suporta Python 3.14+** |
 | Docker Desktop | qualquer recente | Para subir o PostgreSQL localmente |
+| DBeaver | qualquer recente | Para visualizar os modelos criados |
 
 > **Windows:** durante a instalação do Python, marque **"Add Python to PATH"** e instale o **Python Launcher (`py`)**. O script de setup usa `py -3.13`, `py -3.12` etc. para encontrar a versão correta.
 
