@@ -145,6 +145,48 @@ O arquivo `profiles.yml` é gerado pelo script de setup em `~/.dbt/profiles.yml`
 
 ---
 
+## Conectando ao banco pelo DBeaver
+
+### 1. Criar nova conexão
+
+Abra o DBeaver e clique em **Database → New Database Connection** (ou `Ctrl+Shift+N`). Selecione **PostgreSQL** e clique em **Next**.
+
+### 2. Preencher as credenciais
+
+| Campo | Valor |
+|---|---|
+| Host | `localhost` |
+| Port | `5433` |
+| Database | `dbt_demo` |
+| Username | `dbt_user` |
+| Password | `dbt_pass` |
+
+> **Atenção:** o campo **Database** deve ser `dbt_demo`, não `postgres`. Conectar no banco `postgres` (banco padrão do PostgreSQL) não mostrará nenhuma tabela criada pelo dbt.
+
+### 3. Testar e finalizar
+
+Clique em **Test Connection** para validar. Se aparecer "Connected", clique em **Finish**.
+
+### 4. Onde estão as tabelas
+
+Após rodar `dbt seed` e `dbt run`, navegue no painel esquerdo do DBeaver:
+
+```
+dbt_demo
+└── Schemas
+    ├── public_staging   ← modelos da camada staging
+    │   ├── stg_clientes
+    │   ├── stg_pedidos
+    │   └── stg_produtos
+    └── public_marts     ← modelos da camada marts
+```
+
+> O dbt gera os schemas com o prefixo do schema-alvo (`public`) concatenado com o schema customizado definido no `dbt_project.yml` (`staging`, `marts`), resultando em `public_staging` e `public_marts`. As tabelas **não** ficam no schema `public`.
+
+Se os schemas não aparecerem após conectar, clique com o botão direito em **Schemas** e selecione **Refresh**.
+
+---
+
 ## Estrutura de pastas
 
 ```
