@@ -1,0 +1,109 @@
+version: 2
+
+# Seeds são carregadas via `{{ ref('nome_seed') }}` nos modelos de staging.
+# Este arquivo documenta o schema esperado de cada seed e também demonstra
+# como configurar sources com freshness para tabelas brutas reais no warehouse.
+
+seeds:
+  - name: clientes
+    description: Raw client data loaded via seed.
+    columns:
+      - name: id
+        description: Unique client identifier.
+      - name: nome
+        description: Client full name.
+      - name: email
+        description: Client email address.
+      - name: cidade
+        description: Client city of residence.
+      - name: data_cadastro
+        description: Client registration date.
+
+  - name: produtos
+    description: Raw product data loaded via seed.
+    columns:
+      - name: id
+        description: Unique product identifier.
+      - name: nome
+        description: Product name.
+      - name: categoria
+        description: Product category.
+      - name: preco
+        description: Unit price of the product.
+
+  - name: pedidos
+    description: Raw orders data loaded via seed.
+    columns:
+      - name: id
+        description: Unique order identifier.
+      - name: cliente_id
+        description: Reference to the client who placed the order.
+      - name: produto_id
+        description: Reference to the ordered product.
+      - name: quantidade
+        description: Number of units ordered.
+      - name: data_pedido
+        description: Date the order was placed.
+      - name: status
+        description: "Order status: entregue, cancelado or em transito."
+
+# Configuração de sources com freshness — utilizar quando os dados vêm de tabelas
+# brutas no warehouse (via `{{ source() }}`), substituindo as seeds acima.
+sources:
+  - name: raw
+    description: Raw data tables ingested from operational systems into the warehouse.
+    database: your_database    # substituir pelo nome real do banco de dados
+    schema: raw                # substituir pelo schema real de dados brutos
+    # Freshness padrão herdada por todas as tabelas; pode ser sobrescrita por tabela.
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+    tables:
+      - name: clientes
+        description: Raw client data ingested from the operational system.
+        loaded_at_field: data_cadastro
+        columns:
+          - name: id
+            description: Unique client identifier.
+          - name: nome
+            description: Client full name.
+          - name: email
+            description: Client email address.
+          - name: cidade
+            description: Client city of residence.
+          - name: data_cadastro
+            description: Client registration date — used as the freshness reference field.
+
+      - name: produtos
+        description: Raw product data ingested from the operational system.
+        # Produtos raramente mudam; freshness menos restritiva é aceitável.
+        freshness:
+          warn_after: {count: 72, period: hour}
+          error_after: {count: 168, period: hour}
+        loaded_at_field: null
+        columns:
+          - name: id
+            description: Unique product identifier.
+          - name: nome
+            description: Product name.
+          - name: categoria
+            description: Product category.
+          - name: preco
+            description: Unit price of the product.
+
+      - name: pedidos
+        description: Raw orders data ingested from the operational system.
+        loaded_at_field: data_pedido
+        columns:
+          - name: id
+            description: Unique order identifier.
+          - name: cliente_id
+            description: Reference to the client who placed the order.
+          - name: produto_id
+            description: Reference to the ordered product.
+          - name: quantidade
+            description: Number of units ordered.
+          - name: data_pedido
+            description: Date the order was placed — used as the freshness reference field.
+          - name: status
+            description: "Order status: entregue, cancelado or em transito."

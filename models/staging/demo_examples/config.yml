@@ -1,0 +1,111 @@
+version: 2
+
+models:
+  - name: stg_clients
+    description: >
+      Standardized client data sourced from the `clientes` seed.
+      Renames columns to a consistent naming convention and enforces correct data types.
+    columns:
+      - name: hub_transaction_date
+        description: Registration date cast to date type, used as the hub transaction timestamp.
+        tests:
+          - not_null
+
+      - name: hub_index_client_id_mod10
+        description: Mod-10 hash index derived from the client ID, used for partitioning.
+
+      - name: client_id
+        description: Unique client identifier.
+        tests:
+          - unique
+          - not_null
+
+      - name: client_name
+        description: Client full name, uppercased and cast to string.
+        tests:
+          - not_null
+
+      - name: client_email
+        description: Client email address, preserved in its original case.
+        tests:
+          - unique
+          - not_null
+
+      - name: city
+        description: Client city of residence, uppercased and cast to string.
+
+  - name: stg_products
+    description: >
+      Standardized product data sourced from the `produtos` seed.
+      Enforces correct price typing and consistent column naming.
+    columns:
+      - name: hub_index_product_id_mod10
+        description: Mod-10 hash index derived from the product ID, used for partitioning.
+
+      - name: product_id
+        description: Unique product identifier.
+        tests:
+          - unique
+          - not_null
+
+      - name: product_name
+        description: Product name, uppercased and cast to string.
+        tests:
+          - not_null
+
+      - name: product_category
+        description: Category the product belongs to.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ELETRÔNICOS', 'PERIFÉRICOS', 'MOBILIÁRIO', 'ARMAZENAMENTO']
+
+      - name: product_price
+        description: Unit price of the product in BRL, cast to float.
+        tests:
+          - not_null
+
+  - name: stg_orders
+    description: >
+      Standardized order data sourced from the `pedidos` seed.
+      Enforces referential integrity with clients and products and validates allowed statuses.
+    columns:
+      - name: hub_transaction_date
+        description: Order date cast to date type, used as the hub transaction timestamp.
+        tests:
+          - not_null
+
+      - name: hub_index_client_id_mod10
+        description: Mod-10 hash index derived from client_id, used for partitioning.
+
+      - name: hub_index_product_id_mod10
+        description: Mod-10 hash index derived from product_id, used for partitioning.
+
+      - name: order_id
+        description: Unique order identifier.
+        tests:
+          - unique
+          - not_null
+
+      - name: client_id
+        description: Foreign key referencing stg_clients.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_clients')
+              field: client_id
+
+      - name: product_id
+        description: Foreign key referencing stg_products.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
+
+      - name: order_status
+        description: Current order status.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ENTREGUE', 'CANCELADO', 'EM TRANSITO']
