@@ -22,7 +22,7 @@ clean-targets:
 models:
   ae_connect_demo:
     staging:
-      +materialized: view
+      +materialized: table
       +schema: staging
     marts:
       +materialized: table
