@@ -7,7 +7,7 @@ profile: 'ae_connect_demo'
 
 # Caminhos do projeto
 model-paths: ["models"]
-seed-paths: ["seed"]
+seed-paths: ["seeds"]
 test-paths: ["tests"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
